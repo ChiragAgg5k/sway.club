@@ -10,12 +10,12 @@ export default async function Home() {
       >
         <div>
           <div className="mb-2 w-max">
-            <h1 className="animate-typing overflow-hidden whitespace-nowrap border-r-2 border-r-white pr-4 text-6xl font-bold text-white md:text-7xl">
+            <h1 className="animate-typing overflow-hidden whitespace-nowrap border-r-2 border-r-white pr-4 text-6xl font-bold md:text-7xl">
               SLAY WITH
             </h1>
           </div>
           <div className="mb-6 w-max">
-            <h1 className="animate-typing overflow-hidden whitespace-nowrap border-r-2 border-r-white pr-4 text-6xl font-bold text-white md:text-7xl">
+            <h1 className="animate-typing overflow-hidden whitespace-nowrap border-r-2 border-r-white pr-4 text-6xl font-bold text-lime-500 md:text-7xl">
               SWAY
             </h1>
           </div>

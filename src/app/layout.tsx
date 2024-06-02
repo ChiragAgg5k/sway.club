@@ -5,6 +5,7 @@ import React from "react";
 import Navbar from "@/app/_components/navbar";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Montserrat } from "next/font/google";
+import { ThemeProvider } from "@/app/_components/theme-provider";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -27,8 +28,15 @@ export default function RootLayout({
       <html lang="en" className={`${montserrat.className}`}>
         <body className={`flex min-h-screen flex-col`}>
           <TRPCReactProvider>
-            <Navbar />
-            {children}
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Navbar />
+              {children}
+            </ThemeProvider>
           </TRPCReactProvider>
         </body>
       </html>

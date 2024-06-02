@@ -2,12 +2,24 @@ import Image from "next/image";
 import { IoMenu } from "react-icons/io5";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
+import { ThemeToggle } from "@/app/_components/theme-toggle";
 
 const navItems = [
   { name: "Home", path: "/" },
-  { name: "Streetwear", path: "/streetwear" },
+  {
+    name: "Collections",
+    options: [
+      {
+        name: "Streetwear Collection",
+        path: "/collections/streetwear",
+      },
+      {
+        name: "Plain Oversized",
+        path: "/collections/plain-oversized",
+      },
+    ],
+  },
   { name: "About Us", path: "/about" },
-  { name: "Blog", path: "/blog" },
   { name: "Contact", path: "/contact" },
   { name: "Track Order", path: "/track-order" },
 ];
@@ -28,20 +40,50 @@ export default function Navbar() {
       <ul className={"text-md hidden space-x-6 md:flex"}>
         {navItems.map((item) => (
           <li key={item.path}>
-            <Link
-              href={item.path}
-              className={`text-md relative block w-fit after:absolute after:block after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-white after:transition after:duration-300 after:content-[''] after:hover:scale-x-100`}
-            >
-              {item.name}
-            </Link>
+            {item.options ? (
+              <div className="dropdown dropdown-hover">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="text-md relative mb-4 block w-fit after:absolute after:block after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition after:duration-300 after:content-[''] after:hover:scale-x-100"
+                >
+                  {item.name}
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content z-[1] w-fit space-y-2 rounded border p-4"
+                >
+                  {item.options.map((option) => (
+                    <li key={option.path}>
+                      <Link
+                        href={option.path}
+                        className={
+                          "text-md whitespace-nowrap hover:text-foreground/90"
+                        }
+                      >
+                        {option.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <Link
+                href={item.path}
+                className={`text-md relative block w-fit after:absolute after:block after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition after:duration-300 after:content-[''] after:hover:scale-x-100`}
+              >
+                {item.name}
+              </Link>
+            )}
           </li>
         ))}
       </ul>
       <div className={"flex items-center"}>
+        <ThemeToggle />
         <SignedOut>
           <button
             className={
-              "rounded-xl bg-white px-5 py-3 text-sm font-semibold text-black transition-colors ease-in-out hover:bg-gray-200"
+              "rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-background transition-colors ease-in-out hover:bg-foreground/80"
             }
           >
             <SignInButton mode={`modal`} />
@@ -52,7 +94,7 @@ export default function Navbar() {
         </SignedIn>
         <button
           className={
-            "ml-4 rounded-xl border p-3 transition-colors ease-in-out hover:bg-gray-100 hover:text-black md:hidden"
+            "ml-2 rounded-xl border p-2 transition-colors ease-in-out hover:bg-gray-100 hover:text-black md:hidden"
           }
         >
           <IoMenu size={24} />
