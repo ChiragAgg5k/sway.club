@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { IoMenu } from "react-icons/io5";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 const navItems = [
   { name: "Home", path: "/" },
@@ -31,13 +32,18 @@ export default function Navbar() {
         ))}
       </ul>
       <div className={"flex items-center"}>
-        <button
-          className={
-            "rounded-xl bg-white px-5 py-3 text-sm font-semibold text-black transition-colors ease-in-out hover:bg-gray-100"
-          }
-        >
-          Get Started
-        </button>
+        <SignedOut>
+          <button
+            className={
+              "rounded-xl bg-white px-5 py-3 text-sm font-semibold text-black transition-colors ease-in-out hover:bg-gray-100"
+            }
+          >
+            <SignInButton />
+          </button>
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
         <button
           className={
             "ml-4 rounded-xl border p-3 transition-colors ease-in-out hover:bg-gray-100 hover:text-black md:hidden"
