@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { IoMenu } from "react-icons/io5";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import Link from "next/link";
 
 const navItems = [
   { name: "Home", path: "/" },
@@ -19,15 +20,20 @@ export default function Navbar() {
           src={"/logo.png"}
           className={`mr-2`}
           alt={"Sway Logo"}
-          width={40}
-          height={40}
+          width={35}
+          height={35}
         />
         Sway
       </h1>
       <ul className={"text-md hidden space-x-6 md:flex"}>
         {navItems.map((item) => (
           <li key={item.path}>
-            <a href={item.path}>{item.name}</a>
+            <Link
+              href={item.path}
+              className={`text-md relative block w-fit after:absolute after:block after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-white after:transition after:duration-300 after:content-[''] after:hover:scale-x-100`}
+            >
+              {item.name}
+            </Link>
           </li>
         ))}
       </ul>
@@ -35,10 +41,10 @@ export default function Navbar() {
         <SignedOut>
           <button
             className={
-              "rounded-xl bg-white px-5 py-3 text-sm font-semibold text-black transition-colors ease-in-out hover:bg-gray-100"
+              "rounded-xl bg-white px-5 py-3 text-sm font-semibold text-black transition-colors ease-in-out hover:bg-gray-200"
             }
           >
-            <SignInButton />
+            <SignInButton mode={`modal`} />
           </button>
         </SignedOut>
         <SignedIn>

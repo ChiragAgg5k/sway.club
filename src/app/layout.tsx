@@ -1,11 +1,14 @@
 import "@/styles/globals.css";
 
-import { GeistSans } from "geist/font/sans";
-
 import { TRPCReactProvider } from "@/trpc/react";
 import React from "react";
 import Navbar from "@/app/_components/navbar";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Montserrat } from "next/font/google";
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+});
 
 export const metadata = {
   title: "Sway",
@@ -21,7 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en" className={`${GeistSans.variable}`}>
+      <html lang="en" className={`${montserrat.className}`}>
         <body className={`flex min-h-screen flex-col`}>
           <TRPCReactProvider>
             <Navbar />

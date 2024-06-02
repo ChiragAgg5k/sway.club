@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { IoArrowForward } from "react-icons/io5";
 
 export default async function Home() {
   return (
@@ -6,16 +6,16 @@ export default async function Home() {
       className={`flex flex-1 flex-col items-center justify-center sm:flex-row`}
     >
       <div
-        className={`flex w-full flex-col items-center justify-center p-8 md:ml-16 md:p-0`}
+        className={`flex w-1/3 flex-col items-center justify-center p-8 md:ml-16 md:p-0`}
       >
         <div>
           <div className="mb-2 w-max">
-            <h1 className="animate-typing overflow-hidden whitespace-nowrap border-r-2 border-r-white pr-4 text-7xl font-bold text-white">
+            <h1 className="animate-typing overflow-hidden whitespace-nowrap border-r-2 border-r-white pr-4 text-6xl font-bold text-white md:text-7xl">
               SLAY WITH
             </h1>
           </div>
           <div className="mb-6 w-max">
-            <h1 className="animate-typing overflow-hidden whitespace-nowrap border-r-2 border-r-white pr-4 text-7xl font-bold text-white">
+            <h1 className="animate-typing overflow-hidden whitespace-nowrap border-r-2 border-r-white pr-4 text-6xl font-bold text-white md:text-7xl">
               SWAY
             </h1>
           </div>
@@ -27,21 +27,26 @@ export default async function Home() {
           <div>
             <button
               className={
-                "rounded-xl bg-lime-400 px-5 py-3 font-semibold text-black transition-colors ease-in-out hover:bg-lime-500"
+                "group flex items-center justify-center rounded-xl bg-lime-400 px-5 py-3 font-semibold text-black transition-colors ease-in-out hover:bg-lime-500"
               }
             >
-              Get Started {"->"}
+              Get Started{" "}
+              <div
+                className={`ml-1 inline-block transform transition-transform ease-in-out group-hover:translate-x-1`}
+              >
+                <IoArrowForward />
+              </div>
             </button>
             <button></button>
           </div>
         </div>
       </div>
-      <div className={`hidden w-full items-center justify-center md:flex`}>
-        <div className={`w-fit space-y-4`}>
-          <div className={`ml-8 grid grid-cols-3 gap-4`}>
+      <div className={`hidden w-2/3 items-center justify-center md:flex`}>
+        <div className={`w-fit space-y-6`}>
+          <div className={`ml-8 grid grid-cols-3 gap-6`}>
+            <div className={`h-28 w-40 rounded-3xl bg-gray-300 `}></div>
+            <div className={`h-28 w-40 rounded-3xl bg-gray-300 `}></div>
             <div className={`h-28 w-40 rounded-3xl bg-gray-300`}></div>
-            <div className={`h-28 w-40 rounded-3xl bg-gray-300 `}></div>
-            <div className={`h-28 w-40 rounded-3xl bg-gray-300 `}></div>
           </div>
           <div className={`mr-8 grid grid-cols-3 gap-4`}>
             <div className={`h-28 w-40 rounded-3xl bg-gray-300 `}></div>
