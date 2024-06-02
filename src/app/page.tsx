@@ -2,14 +2,18 @@ import Image from "next/image";
 
 export default async function Home() {
   return (
-    <main className={`flex flex-1 flex-row items-center justify-center`}>
-      <div className={`flex w-full flex-col items-center justify-center p-8`}>
+    <main
+      className={`flex flex-1 flex-col items-center justify-center sm:flex-row`}
+    >
+      <div
+        className={`flex w-full flex-col items-center justify-center p-8 md:ml-16 md:p-0`}
+      >
         <div>
-          <h1 className={`mb-4 text-7xl font-extrabold`}>
+          <h1 className={`mb-4 text-6xl font-extrabold md:text-7xl`}>
             SLAY WITH
             <br /> SWAY
           </h1>
-          <p className={`text-md mb-6 line-clamp-3 font-light`}>
+          <p className={`text-md mb-6 font-light`}>
             Sway is a cool and comfy clothing brand. Our styles mix modern
             trends with classic vibes for a vintage yet stylish look. We ensure
             the quality of the fabric and comfortability of the product.
@@ -26,21 +30,21 @@ export default async function Home() {
           </div>
         </div>
       </div>
-      <div className={`w-full`}>
-        <div className={`space-y-4`}>
-          <div className={`grid grid-cols-3 space-x-4 pl-4`}>
+      <div className={`hidden w-full items-center justify-center md:flex`}>
+        <div className={`w-fit space-y-4`}>
+          <div className={`ml-8 grid grid-cols-3 gap-4`}>
             <div className={`h-28 w-40 rounded-3xl bg-gray-300`}></div>
-            <div className={`h-28 w-40 rounded-3xl bg-gray-300`}></div>
+            <div className={`h-28 w-40 rounded-3xl bg-gray-300 `}></div>
+            <div className={`h-28 w-40 rounded-3xl bg-gray-300 `}></div>
+          </div>
+          <div className={`mr-8 grid grid-cols-3 gap-4`}>
+            <div className={`h-28 w-40 rounded-3xl bg-gray-300 `}></div>
+            <div className={`h-28 w-40 rounded-3xl bg-gray-300 `}></div>
             <div className={`h-28 w-40 rounded-3xl bg-gray-300`}></div>
           </div>
-          <div className={`grid grid-cols-3 space-x-4 pr-4`}>
+          <div className={`ml-8 grid grid-cols-3 gap-4`}>
             <div className={`h-28 w-40 rounded-3xl bg-gray-300`}></div>
-            <div className={`h-28 w-40 rounded-3xl bg-gray-300`}></div>
-            <div className={`h-28 w-40 rounded-3xl bg-gray-300`}></div>
-          </div>
-          <div className={`grid grid-cols-3 space-x-4 pl-4`}>
-            <div className={`h-28 w-40 rounded-3xl bg-gray-300`}></div>
-            <div className={`h-28 w-40 rounded-3xl bg-gray-300`}></div>
+            <div className={`h-28 w-40 rounded-3xl bg-gray-300 `}></div>
             <div className={`h-28 w-40 rounded-3xl bg-gray-300`}></div>
           </div>
         </div>

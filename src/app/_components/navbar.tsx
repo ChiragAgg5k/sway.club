@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { IoMenu } from "react-icons/io5";
 
 const navItems = [
   { name: "Home", path: "/" },
@@ -22,20 +23,29 @@ export default function Navbar() {
         />
         Sway
       </h1>
-      <ul className={"text-md flex space-x-6"}>
+      <ul className={"text-md hidden space-x-6 md:flex"}>
         {navItems.map((item) => (
           <li key={item.path}>
             <a href={item.path}>{item.name}</a>
           </li>
         ))}
       </ul>
-      <button
-        className={
-          "rounded-xl bg-white px-5 py-3 text-sm font-semibold text-black transition-colors ease-in-out hover:bg-gray-100"
-        }
-      >
-        Get Started
-      </button>
+      <div className={"flex items-center"}>
+        <button
+          className={
+            "rounded-xl bg-white px-5 py-3 text-sm font-semibold text-black transition-colors ease-in-out hover:bg-gray-100"
+          }
+        >
+          Get Started
+        </button>
+        <button
+          className={
+            "ml-4 rounded-xl border p-3 transition-colors ease-in-out hover:bg-gray-100 hover:text-black md:hidden"
+          }
+        >
+          <IoMenu size={24} />
+        </button>
+      </div>
     </nav>
   );
 }

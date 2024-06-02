@@ -7,8 +7,9 @@ import React from "react";
 import Navbar from "@/app/_components/navbar";
 
 export const metadata = {
-  title: "Sway.club",
-  description: "work in progress...",
+  title: "Sway",
+  description:
+    "Sway is a cool and comfy clothing brand. Our styles mix modern trends with classic vibes for a vintage yet stylish look. We ensure the quality of the fabric and comfortability of the product.",
   icons: [{ rel: "icon", url: "/logo.png" }],
 };
 
