@@ -6,7 +6,7 @@ import Navbar from "@/app/_components/navbar";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Montserrat } from "next/font/google";
 import { ThemeProvider } from "@/app/_components/theme-provider";
-import { dark } from "@clerk/themes";
+import Footer from "@/app/_components/footer";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -25,13 +25,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider
-      appearance={{
-        baseTheme: dark,
-      }}
-    >
+    <ClerkProvider>
       <html lang="en" className={`${montserrat.className}`}>
-        <body className={`flex min-h-screen flex-col`}>
+        <body>
           <TRPCReactProvider>
             <ThemeProvider
               attribute="class"
@@ -41,6 +37,7 @@ export default function RootLayout({
             >
               <Navbar />
               {children}
+              <Footer />
             </ThemeProvider>
           </TRPCReactProvider>
         </body>

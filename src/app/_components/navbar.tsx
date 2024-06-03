@@ -12,10 +12,12 @@ const navItems = [
       {
         name: "Streetwear Collection",
         path: "/collections/streetwear",
+        available: true,
       },
       {
         name: "Plain Oversized",
         path: "/collections/plain-oversized",
+        available: false,
       },
     ],
   },
@@ -38,8 +40,8 @@ export default function Navbar() {
         Sway
       </h1>
       <ul className={"text-md hidden space-x-6 md:flex"}>
-        {navItems.map((item) => (
-          <li key={item.path}>
+        {navItems.map((item, index) => (
+          <li key={index}>
             {item.options ? (
               <div className="dropdown dropdown-hover">
                 <div
