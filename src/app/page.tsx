@@ -1,4 +1,6 @@
 import { IoArrowForward } from "react-icons/io5";
+import { Slide } from "react-awesome-reveal";
+import Hero from "@/app/_components/hero";
 
 export default async function Home() {
   return (
@@ -9,16 +11,7 @@ export default async function Home() {
         className={`flex w-1/3 flex-col items-center justify-center p-8 md:ml-16 md:p-0`}
       >
         <div>
-          <div className="mb-2 w-max">
-            <h1 className="animate-typing overflow-hidden whitespace-nowrap border-r-2 border-r-white pr-4 text-6xl font-bold md:text-7xl">
-              SLAY WITH
-            </h1>
-          </div>
-          <div className="mb-6 w-max">
-            <h1 className="animate-typing overflow-hidden whitespace-nowrap border-r-2 border-r-white pr-4 text-6xl font-bold text-lime-500 md:text-7xl">
-              SWAY
-            </h1>
-          </div>
+          <Hero />
           <p className={`text-md mb-6 font-light`}>
             Sway is a cool and comfy clothing brand. Our styles mix modern
             trends with classic vibes for a vintage yet stylish look. We ensure
