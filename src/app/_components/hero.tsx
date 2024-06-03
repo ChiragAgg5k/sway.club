@@ -14,7 +14,7 @@ export default function Hero() {
         delay={750}
         className={`mb-6 text-6xl font-extrabold text-lime-500 md:text-7xl`}
       >
-        <h1>SWAY</h1>
+        <h1 className={`duration-[10000] animate-pulse`}>SWAY</h1>
       </Fade>
     </>
   );

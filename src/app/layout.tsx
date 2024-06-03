@@ -6,13 +6,14 @@ import Navbar from "@/app/_components/navbar";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Montserrat } from "next/font/google";
 import { ThemeProvider } from "@/app/_components/theme-provider";
+import { dark } from "@clerk/themes";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
 });
 
 export const metadata = {
-  title: "Sway",
+  title: "Sway - SlayWithSway",
   description:
     "Sway is a cool and comfy clothing brand. Our styles mix modern trends with classic vibes for a vintage yet stylish look. We ensure the quality of the fabric and comfortability of the product.",
   icons: [{ rel: "icon", url: "/logo.png" }],
@@ -24,7 +25,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark,
+      }}
+    >
       <html lang="en" className={`${montserrat.className}`}>
         <body className={`flex min-h-screen flex-col`}>
           <TRPCReactProvider>

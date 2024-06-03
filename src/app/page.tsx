@@ -1,11 +1,10 @@
 import { IoArrowForward } from "react-icons/io5";
-import { Slide } from "react-awesome-reveal";
 import Hero from "@/app/_components/hero";
 
 export default async function Home() {
   return (
     <main
-      className={`flex flex-1 flex-col items-center justify-center sm:flex-row`}
+      className={`my-12 flex flex-1 flex-col items-center justify-center md:flex-row`}
     >
       <div
         className={`flex w-1/3 flex-col items-center justify-center p-8 md:ml-16 md:p-0`}
@@ -34,22 +33,39 @@ export default async function Home() {
           </div>
         </div>
       </div>
-      <div className={`hidden w-2/3 items-center justify-center md:flex`}>
+      <div className={`mx-6 flex items-center justify-center md:mx-0 md:w-2/3`}>
         <div className={`w-fit space-y-6`}>
-          <div className={`ml-8 grid grid-cols-3 gap-6`}>
-            <div className={`h-28 w-40 rounded-3xl bg-gray-300 `}></div>
-            <div className={`h-28 w-40 rounded-3xl bg-gray-300 `}></div>
-            <div className={`h-28 w-40 rounded-3xl bg-gray-300`}></div>
+          <div className={`mr-16 grid grid-cols-2 gap-6`}>
+            <video
+              className={`h-full max-h-80 w-auto rounded-3xl`}
+              autoPlay
+              loop
+              muted
+              src={"/vid1.mp4"}
+            />
+            <video
+              className={`h-full max-h-80 w-auto rounded-3xl`}
+              autoPlay
+              loop
+              muted
+              src={"/vid2.mp4"}
+            />
           </div>
-          <div className={`mr-8 grid grid-cols-3 gap-4`}>
-            <div className={`h-28 w-40 rounded-3xl bg-gray-300 `}></div>
-            <div className={`h-28 w-40 rounded-3xl bg-gray-300 `}></div>
-            <div className={`h-28 w-40 rounded-3xl bg-gray-300`}></div>
-          </div>
-          <div className={`ml-8 grid grid-cols-3 gap-4`}>
-            <div className={`h-28 w-40 rounded-3xl bg-gray-300`}></div>
-            <div className={`h-28 w-40 rounded-3xl bg-gray-300 `}></div>
-            <div className={`h-28 w-40 rounded-3xl bg-gray-300`}></div>
+          <div className={`ml-16 grid grid-cols-2 gap-4`}>
+            <video
+              className={`h-full max-h-80 w-auto rounded-3xl`}
+              autoPlay
+              loop
+              muted
+              src={"/vid3.mp4"}
+            />
+            <video
+              className={`h-full max-h-80 w-auto rounded-3xl`}
+              autoPlay
+              loop
+              muted
+              src={"/vid4.mp4"}
+            />
           </div>
         </div>
       </div>

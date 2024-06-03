@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { IoMenu } from "react-icons/io5";
+import { IoArrowForward, IoMenu } from "react-icons/io5";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { ThemeToggle } from "@/app/_components/theme-toggle";
@@ -58,10 +58,15 @@ export default function Navbar() {
                       <Link
                         href={option.path}
                         className={
-                          "text-md whitespace-nowrap hover:text-foreground/90"
+                          "text-md group flex items-center justify-start whitespace-nowrap hover:text-foreground/80"
                         }
                       >
                         {option.name}
+                        <div
+                          className={`ml-1 inline-block transform transition-transform ease-in-out group-hover:translate-x-1`}
+                        >
+                          <IoArrowForward />
+                        </div>
                       </Link>
                     </li>
                   ))}
@@ -90,7 +95,7 @@ export default function Navbar() {
           </button>
         </SignedOut>
         <SignedIn>
-          <UserButton />
+          <UserButton userProfileMode={`modal`} />
         </SignedIn>
         <button
           className={
