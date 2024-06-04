@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const about_links = [
   { name: "About Us", path: "/about" },
   { name: "Our Story", path: "/about/our-story" },
@@ -35,7 +37,7 @@ export default function Footer() {
           />
         </div>
         <div>
-          <h2 className={`text-lg text-lime-600`}>About Sway</h2>
+          <h2 className={`text-lg text-lime-500`}>About Sway</h2>
           <ul className={`mt-4 space-y-2`}>
             {about_links.map((link) => (
               <li key={link.path}>
@@ -50,7 +52,7 @@ export default function Footer() {
           </ul>
         </div>
         <div>
-          <h2 className={`text-lg text-lime-600`}>Help & Support</h2>
+          <h2 className={`text-lg text-lime-500`}>Help & Support</h2>
           <ul className={`mt-4 space-y-2`}>
             {help_links.map((link) => (
               <li key={link.path}>
@@ -67,8 +69,16 @@ export default function Footer() {
       </div>
       <hr className={`border-foreground/50`} />
       <div className={`flex items-center justify-end px-8 py-4`}>
-        <p className={`text-md text-center font-light text-foreground/70`}>
-          © 2023 Sway. All rights reserved.
+        <p className={`text-center text-sm font-light text-foreground/70`}>
+          Copyright © 2024 Sway | Developed by{" "}
+          <Link
+            href={"https://chirag.is-a.dev/"}
+            target={"_blank"}
+            rel={"noopener noreferrer"}
+            className={`text-lime-500 hover:underline`}
+          >
+            Chirag Aggarwal
+          </Link>
         </p>
       </div>
     </footer>
