@@ -29,16 +29,18 @@ const navItems = [
 export default function Navbar() {
   return (
     <nav className={"flex items-center justify-between p-6"}>
-      <h1 className={"flex items-center justify-center text-2xl font-bold"}>
-        <Image
-          src={"/logo.png"}
-          className={`mr-2`}
-          alt={"Sway Logo"}
-          width={35}
-          height={35}
-        />
-        Sway
-      </h1>
+      <Link href={"/"} className={`group`}>
+        <h3 className={"flex items-center justify-center text-2xl font-bold"}>
+          <Image
+            src={"/logo.png"}
+            className={`mr-2 group-hover:animate-pulse`}
+            alt={"Sway Logo"}
+            width={35}
+            height={35}
+          />
+          Sway
+        </h3>
+      </Link>
       <ul className={"text-md hidden space-x-6 md:flex"}>
         {navItems.map((item, index) => (
           <li key={index}>

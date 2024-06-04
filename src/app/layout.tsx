@@ -6,7 +6,6 @@ import Navbar from "@/app/_components/navbar";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Montserrat } from "next/font/google";
 import { ThemeProvider } from "@/app/_components/theme-provider";
-import Footer from "@/app/_components/footer";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -37,7 +36,6 @@ export default function RootLayout({
             >
               <Navbar />
               {children}
-              <Footer />
             </ThemeProvider>
           </TRPCReactProvider>
         </body>
