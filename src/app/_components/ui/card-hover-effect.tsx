@@ -55,15 +55,13 @@ export const HoverEffect = ({
                 alt={item.title}
                 src={"/temp.jpg"}
                 layout="fill"
-                objectFit="cover"
-                className={`opacity-90`}
+                className={`object-cover opacity-90`}
               />
               <Image
                 src={"/temp-2.jpg"}
                 layout="fill"
                 alt={item.title}
-                objectFit="cover"
-                className={`opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100`}
+                className={`object-cover opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100`}
               />
             </div>
             <p className={`mt-4 text-sm`}>
