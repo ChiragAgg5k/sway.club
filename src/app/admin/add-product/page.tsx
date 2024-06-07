@@ -126,7 +126,9 @@ export default function AddProductPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="t-shirt">T-shirt</SelectItem>
+                  <SelectItem value="Oversized T-Shirt">
+                    Oversized T-Shirt
+                  </SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
