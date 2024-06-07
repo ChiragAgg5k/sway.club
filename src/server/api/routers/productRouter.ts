@@ -54,4 +54,16 @@ export const productRouter = createTRPCRouter({
         },
       });
     }),
+
+  fetchLatestProducts: publicProcedure.query(({ ctx }) => {
+    return ctx.db.product.findMany({
+      take: 6,
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        inventory_quantity: true,
+      },
+    });
+  }),
 });

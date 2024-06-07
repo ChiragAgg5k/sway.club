@@ -3,16 +3,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import React, { useState } from "react";
 import Image from "next/image";
+import { type Product } from "@/types";
 
 export const HoverEffect = ({
-  items,
+  products,
   className,
 }: {
-  items: {
-    title: string;
-    description: string;
-    link: string;
-  }[];
+  products: Product[];
   className?: string;
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -24,10 +21,10 @@ export const HoverEffect = ({
         className,
       )}
     >
-      {items.map((item, idx) => (
+      {products.map((item, idx) => (
         <Link
-          href={item?.link}
-          key={item?.link}
+          href={"/product/" + item?.sku_code}
+          key={item?.sku_code}
           className="group relative block h-full w-full p-2"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
@@ -52,24 +49,30 @@ export const HoverEffect = ({
           <Card className={`group relative block h-full w-full`}>
             <div className={`relative h-72 w-full`}>
               <Image
-                alt={item.title}
-                src={"/temp.jpg"}
+                alt={item.product_name}
+                src={item.images[0] ?? "/temp.jpg"}
                 layout="fill"
                 className={`object-cover opacity-90`}
               />
               <Image
-                src={"/temp-2.jpg"}
+                src={item.images[1] ?? "/temp.jpg"}
                 layout="fill"
-                alt={item.title}
+                alt={item.product_name}
                 className={`object-cover opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100`}
               />
             </div>
             <p className={`mt-4 text-sm`}>
-              Rock | Oversized-T-shirt | Sway Clothing
+              {item.product_name} |{" "}
+              {item.category.charAt(0).toUpperCase() + item.category.slice(1)} |
+              Sway Clothing
             </p>
             <p className={`mt-2 text-sm text-gray-500`}>
               <span className={`font-semibold`}>Price: </span>{" "}
-              <span className={`line-through`}>$50</span> $30
+              <span className={`line-through`}>&#8377;{item.price}</span>{" "}
+              <span className={`text-lime-500`}>
+                &#8377;
+                {item.price - (item.price * item.discount) / 100}
+              </span>
             </p>
           </Card>
         </Link>

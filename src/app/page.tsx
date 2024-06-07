@@ -2,8 +2,12 @@ import { IoArrowForward } from "react-icons/io5";
 import Hero from "@/app/_components/hero";
 import Footer from "@/app/_components/footer";
 import { NewArrivals } from "@/app/_components/new-arrivals";
+import { api } from "@/trpc/server";
+import { type Product } from "@/types";
 
 export default async function Home() {
+  const newArrivals = await api.product.fetchLatestProducts();
+
   return (
     <main>
       <div
@@ -78,7 +82,7 @@ export default async function Home() {
       </div>
       <div className={`flex flex-col items-center justify-center py-12`}>
         <h2 className={`mb-6 text-3xl font-semibold`}>New Arrivals</h2>
-        <NewArrivals />
+        <NewArrivals products={newArrivals as Product[]} />
       </div>
       <Footer />
     </main>
