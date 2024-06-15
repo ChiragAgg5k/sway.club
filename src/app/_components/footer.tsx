@@ -1,4 +1,5 @@
 import Link from "next/link";
+import SubscribeNewsletter from "@/app/_components/subscribe-newsletter";
 
 const about_links = [
   { name: "About Us", path: "/about" },
@@ -31,10 +32,7 @@ export default function Footer() {
             Subscribe to our newsletter to get the latest updates on our
             products and promotions.
           </p>
-          <input
-            className={`input input-bordered w-full border-lime-500 bg-secondary text-sm text-foreground/70 focus:border-lime-500 active:border-lime-500`}
-            placeholder="Email"
-          />
+          <SubscribeNewsletter />
         </div>
         <div>
           <h2 className={`text-lg text-lime-500`}>About Sway</h2>

@@ -50,12 +50,14 @@ export const HoverEffect = ({
             <div className={`relative h-72 w-full`}>
               <Image
                 alt={item.product_name}
-                src={item.images[0] ?? "/temp.jpg"}
+                src={
+                  item.images.length > 0 ? item.images[0]! : "/logo_with_bg.jpg"
+                }
                 layout="fill"
                 className={`object-cover opacity-90`}
               />
               <Image
-                src={item.images[1] ?? "/temp.jpg"}
+                src={item.images.length > 1 ? item.images[1]! : item.images[0]!}
                 layout="fill"
                 alt={item.product_name}
                 className={`object-cover opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100`}

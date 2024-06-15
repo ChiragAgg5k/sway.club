@@ -90,13 +90,15 @@ export default function Navbar() {
       <div className={"flex items-center"}>
         <ThemeToggle />
         <SignedOut>
-          <button
-            className={
-              "rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-background transition-colors ease-in-out hover:bg-foreground/80"
-            }
-          >
-            <SignInButton mode={`modal`} />
-          </button>
+          <SignInButton mode={`modal`}>
+            <button
+              className={
+                "rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-background transition-colors ease-in-out hover:bg-foreground/80"
+              }
+            >
+              Sign In
+            </button>
+          </SignInButton>
         </SignedOut>
         <SignedIn>
           <UserButton userProfileMode={`modal`} />

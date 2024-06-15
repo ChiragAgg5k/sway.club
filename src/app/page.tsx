@@ -4,6 +4,8 @@ import Footer from "@/app/_components/footer";
 import { NewArrivals } from "@/app/_components/new-arrivals";
 import { api } from "@/trpc/server";
 import { type Product } from "@/types";
+import { checkRole } from "@/lib/utils";
+import Link from "next/link";
 
 export default async function Home() {
   const newArrivals = await api.product.fetchLatestProducts();
@@ -24,8 +26,9 @@ export default async function Home() {
               ensure the quality of the fabric and comfortability of the
               product.
             </p>
-            <div>
-              <button
+            <div className={`grid w-full grid-cols-2 gap-4`}>
+              <Link
+                href={`/collections`}
                 className={
                   "group flex items-center justify-center rounded-xl bg-lime-400 px-5 py-3 font-semibold text-black transition-colors ease-in-out hover:bg-lime-500"
                 }
@@ -36,8 +39,17 @@ export default async function Home() {
                 >
                   <IoArrowForward />
                 </div>
-              </button>
-              <button></button>
+              </Link>
+              {checkRole("admin") && (
+                <Link
+                  href={`/admin/dashboard`}
+                  className={
+                    "flex items-center justify-center rounded-xl border px-5 py-3 font-semibold transition-colors ease-in-out hover:border-primary"
+                  }
+                >
+                  Admin Dashboard{" "}
+                </Link>
+              )}
             </div>
           </div>
         </div>
