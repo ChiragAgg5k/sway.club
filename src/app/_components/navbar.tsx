@@ -77,13 +77,15 @@ export default function Navbar() {
           <li key={index}>
             {item.options ? (
               <div className="dropdown dropdown-hover">
-                <div
-                  tabIndex={0}
-                  role="button"
-                  className="text-md relative mb-4 block w-fit after:absolute after:block after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition after:duration-300 after:content-[''] after:hover:scale-x-100"
-                >
-                  {item.name}
-                </div>
+                <Link href={item.path} className="group">
+                  <div
+                    tabIndex={0}
+                    role="button"
+                    className="text-md relative mb-4 block w-fit after:absolute after:block after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition after:duration-300 after:content-[''] after:hover:scale-x-100"
+                  >
+                    {item.name}
+                  </div>
+                </Link>
                 <ul
                   tabIndex={0}
                   className="dropdown-content z-[1] w-fit space-y-2 rounded border p-4"
