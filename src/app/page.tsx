@@ -1,7 +1,7 @@
 import { IoArrowForward } from "react-icons/io5";
 import Hero from "@/app/_components/hero";
 import Footer from "@/app/_components/footer";
-import { NewArrivals } from "@/app/_components/new-arrivals";
+import { ProductGrid } from "@/app/_components/product-grid";
 import { api } from "@/trpc/server";
 import { type Product } from "@/types";
 import { checkRole } from "@/lib/utils";
@@ -94,7 +94,9 @@ export default async function Home() {
       </div>
       <div className={`flex flex-col items-center justify-center py-12`}>
         <h2 className={`mb-6 text-3xl font-semibold`}>New Arrivals</h2>
-        <NewArrivals products={newArrivals as Product[]} />
+        <div className={`mx-auto max-w-6xl px-8 pt-4`}>
+          <ProductGrid products={newArrivals as Product[]} />
+        </div>
       </div>
       <Footer />
     </main>

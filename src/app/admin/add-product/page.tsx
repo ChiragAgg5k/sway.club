@@ -29,7 +29,13 @@ const sizes = [
 export default function AddProductPage() {
   const productRouter = api.product.addProduct.useMutation({
     onSuccess: () => {
-      toast("Product added successfully");
+      toast("Product added successfully", {
+        description: "You can view the product in the collections page",
+        action: {
+          label: "Ok",
+          onClick: () => console.log("ok"),
+        },
+      });
       setProduct({
         product_name: "",
         description: "",
