@@ -14,18 +14,6 @@ const navItems = [
   {
     name: "Collections",
     path: "/collections",
-    options: [
-      {
-        name: "Streetwear Collection",
-        path: "/collections/streetwear",
-        available: true,
-      },
-      {
-        name: "Plain Oversized",
-        path: "/collections/plain-oversized",
-        available: false,
-      },
-    ],
   },
   { name: "About Us", path: "/about" },
   { name: "Contact", path: "/contact" },
@@ -75,48 +63,12 @@ export default function Navbar() {
       <ul className={"text-md hidden space-x-6 md:flex"}>
         {navItems.map((item, index) => (
           <li key={index}>
-            {item.options ? (
-              <div className="dropdown dropdown-hover">
-                <Link href={item.path} className="group">
-                  <div
-                    tabIndex={0}
-                    role="button"
-                    className="text-md relative mb-4 block w-fit after:absolute after:block after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition after:duration-300 after:content-[''] after:hover:scale-x-100"
-                  >
-                    {item.name}
-                  </div>
-                </Link>
-                <ul
-                  tabIndex={0}
-                  className="dropdown-content z-[1] w-fit space-y-2 rounded border p-4"
-                >
-                  {item.options.map((option) => (
-                    <li key={option.path}>
-                      <Link
-                        href={option.path}
-                        className={
-                          "text-md group flex items-center justify-start whitespace-nowrap hover:text-foreground/80"
-                        }
-                      >
-                        {option.name}
-                        <div
-                          className={`ml-1 inline-block transform transition-transform ease-in-out group-hover:translate-x-1`}
-                        >
-                          <IoArrowForward />
-                        </div>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : (
-              <Link
-                href={item.path}
-                className={`text-md relative block w-fit after:absolute after:block after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition after:duration-300 after:content-[''] after:hover:scale-x-100`}
-              >
-                {item.name}
-              </Link>
-            )}
+            <Link
+              href={item.path}
+              className={`text-md relative block w-fit after:absolute after:block after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-foreground after:transition after:duration-300 after:content-[''] after:hover:scale-x-100`}
+            >
+              {item.name}
+            </Link>
           </li>
         ))}
       </ul>

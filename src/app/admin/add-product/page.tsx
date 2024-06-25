@@ -78,7 +78,26 @@ export default function AddProductPage() {
   });
 
   const handleSubmit = async () => {
-    console.log(product);
+    if (
+      product.images.length === 0 ||
+      product.product_name === "" ||
+      product.description === "" ||
+      product.category === "" ||
+      product.color === "" ||
+      product.style === "" ||
+      product.price === 0 ||
+      product.discount === 0 ||
+      product.sku_code === ""
+    ) {
+      toast("Please fill all the fields", {
+        description: "All fields are required to add a product",
+        action: {
+          label: "Ok",
+          onClick: () => console.log("ok"),
+        },
+      });
+      return;
+    }
     await productRouter.mutateAsync(product);
   };
 

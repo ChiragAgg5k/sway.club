@@ -67,7 +67,7 @@ export const productRouter = createTRPCRouter({
     return ctx.db.product.findMany({
       take: 6,
       orderBy: {
-        createdAt: "desc",
+        createdAt: "asc",
       },
       include: {
         inventory_quantity: true,

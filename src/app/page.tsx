@@ -26,7 +26,7 @@ export default async function Home() {
               ensure the quality of the fabric and comfortability of the
               product.
             </p>
-            <div className={`grid w-full grid-cols-2 gap-4`}>
+            <div className={`grid w-full grid-cols-1 gap-4 md:grid-cols-2`}>
               <Link
                 href={`/collections`}
                 className={
