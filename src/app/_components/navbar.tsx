@@ -52,12 +52,12 @@ export default function Navbar() {
         <h3 className={"flex items-center justify-center text-2xl font-bold"}>
           <Image
             src={"/logo.png"}
-            className={`mr-2 group-hover:animate-pulse`}
+            className={`group-hover:animate-pulse`}
             alt={"Sway Logo"}
             width={35}
             height={35}
           />
-          Sway
+          <p className={`ml-2`}>Sway</p>
         </h3>
       </Link>
       <ul className={"text-md hidden space-x-6 md:flex"}>

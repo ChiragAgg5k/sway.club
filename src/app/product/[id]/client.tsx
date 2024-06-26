@@ -93,7 +93,7 @@ export default function ProductClient() {
               : "group flex w-48 items-center justify-center rounded-xl bg-lime-400 px-5 py-6 font-semibold text-black transition-colors ease-in-out hover:bg-lime-500"
           }
         >
-          Add to cart
+          {addedToCart ? "Added to cart" : "Add to cart"}
           <div
             className={`ml-1 inline-block transform transition-transform ease-in-out group-hover:translate-x-1`}
           >
