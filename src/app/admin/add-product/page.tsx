@@ -4,7 +4,7 @@ import { Button } from "@/app/_components/ui/button";
 import { Input } from "@/app/_components/ui/input";
 import { type Product } from "@/types";
 import { Label } from "@/app/_components/ui/label";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Textarea } from "@/app/_components/ui/textarea";
 import {
   Select,

@@ -6,7 +6,6 @@ import { IoArrowForward } from "react-icons/io5";
 import { useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { useToast } from "@/app/_components/ui/use-toast";
-import { ToastAction } from "@/app/_components/ui/toast";
 
 export default function ProductClient() {
   const [sizes, setSizes] = useState<
