@@ -1,9 +1,10 @@
 "use client";
 
-import { toast } from "sonner";
 import { useState } from "react";
+import { useToast } from "@/app/_components/ui/use-toast";
 
 export default function SubscribeNewsletter() {
+  const { toast } = useToast();
   const [email, setEmail] = useState("");
 
   return (
@@ -11,14 +12,16 @@ export default function SubscribeNewsletter() {
       onSubmit={(e) => {
         e.preventDefault();
         if (!email) {
-          return toast.message("Email is required!");
+          toast({
+            title: "Please enter an email",
+            description: "You need to enter an email to subscribe",
+          });
+          return;
         }
-        toast("Subscribed to newsletter successfully!", {
-          description: "You will receive the latest updates on our products.",
-          action: {
-            label: "Ok",
-            onClick: () => console.log("Ok"),
-          },
+
+        toast({
+          title: "Subscribed",
+          description: "You have successfully subscribed to our newsletter",
         });
 
         setEmail("");

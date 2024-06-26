@@ -74,4 +74,22 @@ export const productRouter = createTRPCRouter({
       },
     });
   }),
+
+  fetchRelatedProducts: publicProcedure
+    .input(
+      z.object({
+        color: z.string(),
+      }),
+    )
+    .query(({ ctx, input }) => {
+      return ctx.db.product.findMany({
+        take: 3,
+        where: {
+          color: input.color,
+        },
+        include: {
+          inventory_quantity: true,
+        },
+      });
+    }),
 });

@@ -1,7 +1,5 @@
 import { api } from "@/trpc/server";
 import Image from "next/legacy/image";
-import { IoArrowForward } from "react-icons/io5";
-import { Button } from "@/app/_components/ui/button";
 import {
   Carousel,
   CarouselContent,
@@ -9,9 +7,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/app/_components/ui/carousel";
-import { Badge } from "@/app/_components/ui/badge";
-
-const sizes = ["S", "M", "L", "XL"];
+import ProductClient from "@/app/product/[id]/client";
+import { ProductGrid } from "@/app/_components/product-grid";
+import type { Product } from "@/types";
+import Link from "next/link";
 
 export default async function ProductPage({
   params,
@@ -31,6 +30,10 @@ export default async function ProductPage({
       </div>
     );
   }
+
+  const relatedProducts = (await api.product.fetchRelatedProducts({
+    color: product.color,
+  })) as Product[];
 
   return (
     <main>
@@ -82,53 +85,30 @@ export default async function ProductPage({
           <p className={`mt-4 text-sm leading-7 text-muted-foreground`}>
             {product.description}
           </p>
-          <div className={`mt-6 flex items-center justify-start`}>
-            <p className={`mr-4`}>Size: </p>
-            <div className={`grid w-fit grid-cols-4 gap-4`}>
-              {sizes.map((size, index) => (
-                <Badge variant={`outline`} key={index}>
-                  {size}
-                </Badge>
-              ))}
-            </div>
-          </div>
-          <div className={`mt-6 flex items-center justify-start`}>
-            <div className={`mr-4 grid grid-cols-3`}>
-              <button
-                className={`flex h-14 w-14 items-center justify-center border text-lg hover:scale-105 hover:text-lime-500`}
-              >
-                -
-              </button>
-              <div
-                className={`flex h-14 w-14 items-center justify-center border`}
-              >
-                1
-              </div>
-              <button
-                className={`flex h-14 w-14 items-center justify-center border text-lg hover:scale-105 hover:text-lime-500`}
-              >
-                +
-              </button>
-            </div>
-            <Button
-              className={
-                "group flex w-48 items-center justify-center rounded-xl bg-lime-400 px-5 py-6 font-semibold text-black transition-colors ease-in-out hover:bg-lime-500"
-              }
-            >
-              Add to cart
-              <div
-                className={`ml-1 inline-block transform transition-transform ease-in-out group-hover:translate-x-1`}
-              >
-                <IoArrowForward />
-              </div>
-            </Button>
-          </div>
+          <ProductClient />
         </div>
       </div>
       <div>
         <h2 className={`mt-8 text-center text-2xl font-semibold`}>
           Related Products
         </h2>
+        {relatedProducts ? (
+          <div className={`mx-8 mb-12`}>
+            <ProductGrid products={relatedProducts} />
+          </div>
+        ) : (
+          <div className={`flex h-96 items-center justify-center`}>
+            <p className={`text-center text-muted-foreground`}>
+              No related products found. Please head back to the{" "}
+              <Link
+                href={`/collections`}
+                className={`text-lime-500 hover:underline`}
+              >
+                Collections Page
+              </Link>
+            </p>
+          </div>
+        )}
       </div>
     </main>
   );

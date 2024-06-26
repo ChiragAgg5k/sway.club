@@ -6,8 +6,8 @@ import Navbar from "@/app/_components/navbar";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Montserrat } from "next/font/google";
 import { ThemeProvider } from "@/app/_components/theme-provider";
-import { Toaster } from "@/app/_components/ui/sonner";
 import NextTopLoader from "nextjs-toploader";
+import { Toaster } from "@/app/_components/ui/toaster";
 
 const montserrat = Montserrat({
   subsets: ["latin"],

@@ -16,7 +16,8 @@ import {
 } from "@/app/_components/ui/select";
 import { IoIosCloseCircle } from "react-icons/io";
 import { api } from "@/trpc/react";
-import { toast } from "sonner";
+import Image from "next/legacy/image";
+import { useToast } from "@/app/_components/ui/use-toast";
 
 const sizes = [
   { value: "s", label: "S" },
@@ -27,14 +28,13 @@ const sizes = [
 ];
 
 export default function AddProductPage() {
+  const { toast } = useToast();
+
   const productRouter = api.product.addProduct.useMutation({
     onSuccess: () => {
-      toast("Product added successfully", {
-        description: "You can view the product in the collections page",
-        action: {
-          label: "Ok",
-          onClick: () => console.log("ok"),
-        },
+      toast({
+        title: "Product added successfully",
+        description: "Product has been added successfully",
       });
       setProduct({
         product_name: "",
@@ -89,13 +89,6 @@ export default function AddProductPage() {
       product.discount === 0 ||
       product.sku_code === ""
     ) {
-      toast("Please fill all the fields", {
-        description: "All fields are required to add a product",
-        action: {
-          label: "Ok",
-          onClick: () => console.log("ok"),
-        },
-      });
       return;
     }
     await productRouter.mutateAsync(product);
@@ -270,7 +263,13 @@ export default function AddProductPage() {
           >
             {product.images.map((image, index) => (
               <div key={index} className={`relative`}>
-                <img src={image} alt="product image" className={`h-20 w-20`} />
+                <Image
+                  src={image}
+                  alt="product image"
+                  className={`h-20 w-20`}
+                  placeholder={"blur"}
+                  blurDataURL={"data:image/svg+xml;base64,Ly9zdGF0aWMub3JnLw=="}
+                />
                 <button
                   className={"absolute right-1 top-1"}
                   onClick={() => {
