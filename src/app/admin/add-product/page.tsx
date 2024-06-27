@@ -29,6 +29,7 @@ const sizes = [
 
 export default function AddProductPage() {
   const { toast } = useToast();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const productRouter = api.product.addProduct.useMutation({
     onSuccess: () => {
@@ -91,7 +92,9 @@ export default function AddProductPage() {
     ) {
       return;
     }
+    setLoading(true);
     await productRouter.mutateAsync(product);
+    setLoading(false);
   };
 
   const [image, setImage] = useState<string>("");
@@ -267,6 +270,8 @@ export default function AddProductPage() {
                   src={image}
                   alt="product image"
                   className={`h-20 w-20`}
+                  width={80}
+                  height={80}
                   placeholder={"blur"}
                   blurDataURL={"data:image/svg+xml;base64,Ly9zdGF0aWMub3JnLw=="}
                 />
@@ -332,8 +337,13 @@ export default function AddProductPage() {
           />
         </div>
 
-        <Button type="submit" className={`w-full`} onClick={handleSubmit}>
-          Add Product
+        <Button
+          disabled={loading}
+          type="submit"
+          className={`w-full`}
+          onClick={handleSubmit}
+        >
+          {loading ? "Adding product..." : "Add Product"}
         </Button>
       </div>
     </div>

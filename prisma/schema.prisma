@@ -16,7 +16,7 @@ model Product {
   style              String
   price              Float
   discount           Float
-  inventory_quantity InventoryQuantity[]
+  inventory_quantity InventoryQuantity[] @relation("ProductToInventoryQuantity")
   images             String[]
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
@@ -26,6 +26,6 @@ model InventoryQuantity {
   id               Int     @id @default(autoincrement())
   size             String
   quantity         Int
-  product          Product @relation(fields: [product_sku_code], references: [sku_code])
+  product          Product @relation("ProductToInventoryQuantity", fields: [product_sku_code], references: [sku_code], onDelete: Cascade)
   product_sku_code String
 }

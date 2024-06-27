@@ -13,7 +13,7 @@ export default async function Home() {
   return (
     <main>
       <div
-        className={`my-12 flex flex-1 flex-col items-center justify-center md:flex-row`}
+        className={`my-12 flex min-h-[80vh] flex-1 flex-col items-center justify-center md:flex-row`}
       >
         <div
           className={`flex w-1/3 flex-col items-center justify-center p-8 md:ml-16 md:p-0`}
