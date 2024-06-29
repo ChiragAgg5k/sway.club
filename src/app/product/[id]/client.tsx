@@ -3,11 +3,14 @@
 import { Badge } from "@/app/_components/ui/badge";
 import { Button } from "@/app/_components/ui/button";
 import { IoArrowForward } from "react-icons/io5";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { useToast } from "@/app/_components/ui/use-toast";
+import { useCartStore } from "@/store/cart";
+import { type Product } from "@/types";
+import { useRouter } from "next/navigation";
 
-export default function ProductClient() {
+export default function ProductClient({ product }: { product: Product }) {
   const [sizes, setSizes] = useState<
     {
       size: string;
@@ -20,8 +23,15 @@ export default function ProductClient() {
     { size: "XL", selected: false },
   ]);
   const [quantity, setQuantity] = useState(1);
-  const [addedToCart, setAddedToCart] = useState(false);
   const { toast } = useToast();
+  const { add, checkIfInCart } = useCartStore();
+  const [productedAdded, setProductedAdded] = useState<boolean | undefined>(
+    undefined,
+  );
+
+  useEffect(() => {
+    setProductedAdded(checkIfInCart(product.sku_code));
+  }, [product.sku_code]);
 
   const handleAddToCart = () => {
     const selectedSize = sizes.find((size) => size.selected);
@@ -32,7 +42,8 @@ export default function ProductClient() {
       });
       return;
     }
-    setAddedToCart(true);
+    add(product, quantity);
+    setProductedAdded(true);
   };
 
   return (
@@ -43,9 +54,12 @@ export default function ProductClient() {
           {sizes.map((size, index) => (
             <Badge
               key={index}
-              className={`cursor-pointer`}
+              className={productedAdded ? `cursor-default` : `cursor-pointer`}
               variant={size.selected ? "default" : "outline"}
               onClick={() => {
+                if (productedAdded) {
+                  return;
+                }
                 setSizes(
                   sizes.map((s) =>
                     s.size === size.size
@@ -68,6 +82,7 @@ export default function ProductClient() {
                 setQuantity(quantity - 1);
               }
             }}
+            disabled={productedAdded}
             className={`flex h-14 w-14 items-center justify-center border text-lg hover:scale-105 hover:text-lime-500`}
           >
             -
@@ -79,6 +94,7 @@ export default function ProductClient() {
             onClick={() => {
               setQuantity(quantity + 1);
             }}
+            disabled={productedAdded}
             className={`flex h-14 w-14 items-center justify-center border text-lg hover:scale-105 hover:text-lime-500`}
           >
             +
@@ -86,17 +102,18 @@ export default function ProductClient() {
         </div>
         <Button
           onClick={handleAddToCart}
+          disabled={productedAdded}
           className={
-            addedToCart
+            productedAdded
               ? "group flex w-48 items-center justify-center rounded-xl border bg-background px-5 py-6 font-semibold text-foreground hover:bg-background"
               : "group flex w-48 items-center justify-center rounded-xl bg-lime-400 px-5 py-6 font-semibold text-black transition-colors ease-in-out hover:bg-lime-500"
           }
         >
-          {addedToCart ? "Added to cart" : "Add to cart"}
+          {productedAdded ? "Added to cart" : "Add to cart"}
           <div
             className={`ml-1 inline-block transform transition-transform ease-in-out group-hover:translate-x-1`}
           >
-            {addedToCart ? <FaCheck /> : <IoArrowForward />}
+            {productedAdded ? <FaCheck /> : <IoArrowForward />}
           </div>
         </Button>
       </div>

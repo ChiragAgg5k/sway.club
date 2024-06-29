@@ -8,6 +8,8 @@ import { ThemeToggle } from "@/app/_components/theme-toggle";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { IoIosClose } from "react-icons/io";
+import { Button } from "@/app/_components/ui/button";
+import { CiShoppingCart } from "react-icons/ci";
 
 const navItems = [
   { name: "Home", path: "/" },
@@ -73,6 +75,11 @@ export default function Navbar() {
         ))}
       </ul>
       <div className={"flex items-center"}>
+        <Link href={"/cart"} className={`mr-2`}>
+          <Button variant={`outline`}>
+            <CiShoppingCart size={24} />
+          </Button>
+        </Link>
         <ThemeToggle />
         <SignedOut>
           <SignInButton mode={`modal`}>

@@ -19,9 +19,9 @@ export default async function ProductPage({
     id: string;
   };
 }) {
-  const product = await api.product.fetchProduct({
+  const product = (await api.product.fetchProduct({
     sku_code: params.id,
-  });
+  })) as Product;
 
   if (!product) {
     return (
@@ -85,7 +85,7 @@ export default async function ProductPage({
           <p className={`mt-4 text-sm leading-7 text-muted-foreground`}>
             {product.description}
           </p>
-          <ProductClient />
+          <ProductClient product={product} />
         </div>
       </div>
       <div>

@@ -52,6 +52,9 @@ export const productRouter = createTRPCRouter({
         where: {
           sku_code: input.sku_code,
         },
+        include: {
+          inventory_quantity: true,
+        },
       });
     }),
 
