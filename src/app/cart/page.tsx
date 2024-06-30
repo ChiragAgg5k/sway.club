@@ -2,6 +2,9 @@
 
 import { useCartStore } from "@/store/cart";
 import CartCard from "@/app/_components/cart-card";
+import { IoIosCart } from "react-icons/io";
+import { Button } from "../_components/ui/button";
+import Link from "next/link";
 
 export default function CartPage() {
   const { cart } = useCartStore();
@@ -17,14 +20,32 @@ export default function CartPage() {
                 <CartCard key={cartItem.sku_code} cartItem={cartItem} />
               ))}
             </div>
+            <p
+              className={`mt-4 w-full pr-4 text-right text-lg text-muted-foreground`}
+            >
+              Total:{" "}
+              <span className={`text-foreground`}>
+                &#8377;
+                {cart.reduce(
+                  (acc, item) => acc + item.price * item.quantity,
+                  0,
+                )}
+              </span>
+            </p>
           </div>
           <div className={`w-1/3`}></div>
         </div>
       ) : (
-        <div className={`flex min-h-[80vh] w-full items-center justify-center`}>
+        <div
+          className={`flex min-h-[80vh] w-full flex-col items-center justify-center`}
+        >
+          <IoIosCart className={`mb-2 text-8xl text-muted-foreground`} />
           <p className={`mx-4 text-center text-muted-foreground`}>
-            Your cart is empty
+            Uh oh! Seems like your cart is empty.
           </p>
+          <Link href={`/collections`}>
+            <Button className={`mt-4`}>Start Shopping</Button>
+          </Link>
         </div>
       )}
     </main>

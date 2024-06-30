@@ -4,16 +4,25 @@ import { persist, createJSONStorage } from "zustand/middleware";
 
 export interface CartItem extends Product {
   quantity: number;
+  size: "S" | "M" | "L" | "XL" | "XXL";
 }
 
 type CartStore = {
   cart: CartItem[];
   count: () => number;
-  add: (product: Product, quantity?: number) => void;
-  remove: (product: Product) => void;
+  add: (
+    product: Product,
+    quantity?: number,
+    size?: "S" | "M" | "L" | "XL" | "XXL",
+  ) => void;
+  remove: (product: Product, size?: "S" | "M" | "L" | "XL" | "XXL") => void;
+  increaseCount: (product: Product, quantity?: number) => void;
   decreaseCount: (product: Product, quantity?: number) => void;
   clear: () => void;
-  checkIfInCart: (sku_code: string) => boolean;
+  checkIfInCart: (
+    sku_code: string,
+    size?: "S" | "M" | "L" | "XL" | "XXL",
+  ) => boolean;
 };
 
 export const useCartStore = create<CartStore>()(
@@ -24,22 +33,47 @@ export const useCartStore = create<CartStore>()(
         const { cart } = get();
         return cart.reduce((acc, item) => acc + item.quantity, 0);
       },
-      add: (product, quantity = 1) =>
+      // add product if the product with same sku_code and size is not already in cart
+      add: (
+        product: Product,
+        quantity = 1,
+        size: "S" | "M" | "L" | "XL" | "XXL" = "M",
+      ) =>
         set((state) => {
-          const item = state.cart.find(
-            (item) => item.sku_code === product.sku_code,
+          const { cart } = state;
+          const existingItem = cart.find(
+            (item) => item.sku_code === product.sku_code && item.size === size,
           );
-          if (item) {
+          if (existingItem) {
             return {
-              cart: state.cart.map((cartItem) =>
-                cartItem.sku_code === product.sku_code
-                  ? { ...cartItem, quantity: cartItem.quantity + quantity }
-                  : cartItem,
+              cart: cart.map((item) =>
+                item.sku_code === product.sku_code && item.size === size
+                  ? { ...item, quantity: item.quantity + quantity }
+                  : item,
               ),
             };
-          } else {
-            return { cart: [...state.cart, { ...product, quantity }] };
           }
+          return {
+            cart: [
+              ...cart,
+              {
+                ...product,
+                quantity,
+                size,
+              },
+            ],
+          };
+        }),
+      increaseCount: (product, quantity = 1) =>
+        set((state) => {
+          const updatedCart = state.cart.map((item) =>
+            item.sku_code === product.sku_code
+              ? { ...item, quantity: item.quantity + quantity }
+              : item,
+          );
+          return {
+            cart: updatedCart,
+          };
         }),
       decreaseCount: (product, quantity = 1) =>
         set((state) => {
@@ -52,19 +86,22 @@ export const useCartStore = create<CartStore>()(
             cart: updatedCart.filter((item) => item.quantity > 0),
           };
         }),
-      remove: (product) =>
-        set((state) => {
-          const updatedCart = state.cart.filter(
-            (item) => item.sku_code !== product.sku_code,
-          );
-          return {
-            cart: updatedCart,
-          };
-        }),
+      remove: (product, size = "M") =>
+        set((state) => ({
+          cart: state.cart.filter(
+            (item) => item.sku_code !== product.sku_code || item.size !== size,
+          ),
+        })),
       clear: () => set({ cart: [] }),
-      checkIfInCart: (sku_code: string) => {
+      checkIfInCart: (
+        sku_code: string,
+        size?: "S" | "M" | "L" | "XL" | "XXL",
+      ) => {
         const { cart } = get();
-        return cart.some((item) => item.sku_code === sku_code);
+        if (size === undefined) return false;
+        return cart.some(
+          (item) => item.sku_code === sku_code && item.size === size,
+        );
       },
     }),
     {

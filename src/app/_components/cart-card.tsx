@@ -4,14 +4,15 @@ import { type CartItem, useCartStore } from "@/store/cart";
 import Image from "next/legacy/image";
 import React from "react";
 import { IoMdClose } from "react-icons/io";
+import Link from "next/link";
 
 export default function CartCard({ cartItem }: { cartItem: CartItem }) {
-  const { remove } = useCartStore();
+  const { increaseCount, decreaseCount, remove } = useCartStore();
 
   return (
     <div className={`relative grid grid-cols-4 border p-4`}>
       <button
-        onClick={() => remove(cartItem)}
+        onClick={() => remove(cartItem, cartItem.size)}
         className={`absolute right-2 top-2 cursor-pointer`}
       >
         <IoMdClose className={`text-muted-foreground`} />
@@ -28,15 +29,23 @@ export default function CartCard({ cartItem }: { cartItem: CartItem }) {
         />
       </div>
       <div className={`flex flex-col items-start justify-center`}>
-        <h2 className={`text-lg font-bold`}>{cartItem.product_name}</h2>
+        <Link href={`/product/${cartItem.sku_code}`}>
+          <h2 className={`text-lg font-bold`}>{cartItem.product_name}</h2>
+        </Link>
         <p className={`text-sm text-muted-foreground`}>
           {cartItem.category} <br />{" "}
-          {cartItem.style[0]!.toUpperCase() + cartItem.style.slice(1)}
+          {cartItem.style[0]!.toUpperCase() + cartItem.style.slice(1)} <br />
+          Size: <span className={`text-lime-500`}>{cartItem.size}</span>
         </p>
       </div>
       <div className={`flex items-center justify-center`}>
         <div className={`mr-4 grid grid-cols-3`}>
           <button
+            onClick={() => {
+              if (cartItem.quantity > 1) {
+                decreaseCount(cartItem, 1);
+              }
+            }}
             className={`flex h-10 w-10 items-center justify-center border text-lg hover:scale-105 hover:text-lime-500`}
           >
             -
@@ -45,6 +54,7 @@ export default function CartCard({ cartItem }: { cartItem: CartItem }) {
             {cartItem.quantity}
           </div>
           <button
+            onClick={() => increaseCount(cartItem, 1)}
             className={`flex h-10 w-10 items-center justify-center border text-lg hover:scale-105 hover:text-lime-500`}
           >
             +
