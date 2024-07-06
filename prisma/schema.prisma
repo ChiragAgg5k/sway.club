@@ -20,6 +20,25 @@ model Product {
   images             String[]
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
+  order_items        OrderItem[]         @relation("ProductToOrderItem")
+}
+
+model Order {
+  id          String      @id
+  order_date  DateTime
+  total_price Float
+  status      String
+  user_id     String
+  order_items OrderItem[]
+}
+
+model OrderItem {
+  id               Int     @id @default(autoincrement())
+  quantity         Int
+  order            Order   @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  order_id         String
+  product_sku_code String
+  product          Product @relation("ProductToOrderItem", fields: [product_sku_code], references: [sku_code])
 }
 
 model InventoryQuantity {

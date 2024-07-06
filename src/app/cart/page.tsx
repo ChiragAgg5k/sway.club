@@ -8,16 +8,36 @@ import Link from "next/link";
 import Script from "next/script";
 import { api } from "@/trpc/react";
 import React from "react";
-import { useUser } from "@clerk/nextjs";
+import { SignInButton, useUser } from "@clerk/nextjs";
 import { env } from "@/env";
+import { useToast } from "@/app/_components/ui/use-toast";
+import { ToastAction } from "@/app/_components/ui/toast";
+import { redirect } from "next/navigation";
 
 export default function CartPage() {
   const { cart } = useCartStore();
   const createOrder = api.razorPay.createOrder.useMutation();
   const { user } = useUser();
+  const { isSignedIn } = useUser();
+  const { toast } = useToast();
+  const order = api.order.create.useMutation();
 
   const processPayment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!isSignedIn) {
+      toast({
+        title: "Please sign in",
+        description: "You need to sign in to proceed to payment",
+        action: (
+          <ToastAction altText={"Sign in"}>
+            <SignInButton mode={`modal`}>Sign in</SignInButton>
+          </ToastAction>
+        ),
+      });
+      return;
+    }
+
     const amount =
       cart.reduce((acc, item) => acc + item.price * item.quantity, 0) * 100;
     const currency = "INR";
@@ -26,7 +46,22 @@ export default function CartPage() {
         amount: amount,
         currency: currency,
       });
-      console.log(orderId);
+
+      order.mutate({
+        status: "pending",
+        id: orderId.id,
+        order_items: cart.map((item) => ({
+          sku_code: item.sku_code,
+          quantity: item.quantity,
+        })),
+        order_date: new Date().toISOString(),
+        total_price: cart.reduce(
+          (acc, item) => acc + item.price * item.quantity,
+          0,
+        ),
+        user_id: user!.id,
+      });
+
       const options = {
         key: env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: amount,
@@ -63,6 +98,7 @@ export default function CartPage() {
         prefill: {
           name: user?.fullName,
           email: user?.emailAddresses[0],
+          contact: user?.phoneNumbers[0],
         },
         theme: {
           color: "#98d93a",
@@ -76,6 +112,7 @@ export default function CartPage() {
       paymentObject.on("payment.failed", function (response: any) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         alert(response.error.description);
+        redirect("/");
       });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       paymentObject.open();
@@ -85,7 +122,7 @@ export default function CartPage() {
   };
 
   return (
-    <main className={`flex px-12 py-4`}>
+    <main className={`flex px-4 py-4 md:px-6 lg:px-8 xl:px-12`}>
       <Script
         id="razorpay-checkout-js"
         src="https://checkout.razorpay.com/v1/checkout.js"
@@ -99,27 +136,47 @@ export default function CartPage() {
                 <CartCard key={cartItem.sku_code} cartItem={cartItem} />
               ))}
             </div>
-            <p
-              className={`mt-4 w-full pr-4 text-right text-lg text-muted-foreground`}
-            >
-              Total:{" "}
-              <span className={`text-foreground`}>
-                &#8377;
-                {cart.reduce(
-                  (acc, item) => acc + item.price * item.quantity,
-                  0,
-                )}
-              </span>
-            </p>
           </div>
-          <div className={`w-full pl-4 md:w-1/3`}>
+          <div className={`mt-8 w-full pl-4 md:mt-0 md:w-1/3`}>
             <form
               onSubmit={processPayment}
-              className={`relative flex min-h-[50dvh] flex-col items-center justify-between rounded border p-4`}
+              className={`relative flex min-h-[50dvh] w-full flex-col items-center justify-between rounded border p-4`}
             >
-              <h2 className={`text-xl font-semibold text-foreground`}>
-                Order Summary:{" "}
-              </h2>
+              <div className={`w-full flex-1`}>
+                <h2 className={`text-xl font-semibold text-foreground`}>
+                  Order Summary:{" "}
+                </h2>
+                <div className={`mt-2 h-1 w-full bg-border`} />
+                {cart.map((cartItem) => (
+                  <div
+                    key={cartItem.sku_code}
+                    className={`mt-2 flex items-center justify-between`}
+                  >
+                    <p className={`text-sm`}>
+                      - {cartItem.product_name}{" "}
+                      <span className={`ml-4 text-muted-foreground`}>
+                        x {cartItem.quantity}
+                      </span>
+                    </p>
+                    <p className={`text-muted-foreground`}>
+                      &#8377;{cartItem.price * cartItem.quantity}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <p
+                className={`mb-1 mt-4 w-full pr-4 text-right text-lg text-muted-foreground`}
+              >
+                Total:{" "}
+                <span className={`text-foreground`}>
+                  &#8377;
+                  {cart.reduce(
+                    (acc, item) => acc + item.price * item.quantity,
+                    0,
+                  )}
+                </span>
+              </p>
+              <div className={`mb-4 h-1 w-full bg-border`} />
               <Button
                 type="submit"
                 className={` w-full bg-lime-500 hover:bg-lime-600`}

@@ -8,6 +8,8 @@ import { FaCheck } from "react-icons/fa";
 import { useToast } from "@/app/_components/ui/use-toast";
 import { useCartStore } from "@/store/cart";
 import { type Product } from "@/types";
+import { ToastAction } from "@/app/_components/ui/toast";
+import { useRouter } from "next/navigation";
 
 export default function ProductClient({ product }: { product: Product }) {
   const [sizes, setSizes] = useState<
@@ -25,6 +27,7 @@ export default function ProductClient({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState(1);
   const { toast } = useToast();
   const { add, checkIfInCart } = useCartStore();
+  const router = useRouter();
   const [currProductAdded, setCurrProductAdded] = useState(false);
 
   useEffect(() => {
@@ -51,6 +54,20 @@ export default function ProductClient({ product }: { product: Product }) {
       return;
     }
     add(product, quantity, selectedSize.size as "S" | "M" | "L" | "XL" | "XXL");
+    toast({
+      title: "Added to cart",
+      description: `${quantity} ${product.product_name} of size ${selectedSize.size} added to cart`,
+      action: (
+        <ToastAction
+          onClick={() => {
+            router.push("/cart");
+          }}
+          altText="Go to cart"
+        >
+          View Cart
+        </ToastAction>
+      ),
+    });
 
     setCurrProductAdded(true);
   };

@@ -10,7 +10,7 @@ export default function CartCard({ cartItem }: { cartItem: CartItem }) {
   const { increaseCount, decreaseCount, remove } = useCartStore();
 
   return (
-    <div className={`relative grid grid-cols-4 border p-4`}>
+    <div className={`relative grid grid-cols-2 border p-4 sm:grid-cols-4`}>
       <button
         onClick={() => remove(cartItem, cartItem.size)}
         className={`absolute right-2 top-2 cursor-pointer`}
