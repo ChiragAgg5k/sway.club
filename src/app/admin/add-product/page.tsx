@@ -307,7 +307,7 @@ export default function AddProductPage() {
             />
           </div>
           <div className="grid w-full items-center gap-3">
-            <Label htmlFor="discount">Discount %</Label>
+            <Label htmlFor="discount">Discount</Label>
             <Input
               type="text"
               id="discount"

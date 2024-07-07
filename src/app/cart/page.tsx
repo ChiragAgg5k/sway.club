@@ -7,12 +7,20 @@ import { Button } from "../_components/ui/button";
 import Link from "next/link";
 import Script from "next/script";
 import { api } from "@/trpc/react";
-import React from "react";
+import React, { useState } from "react";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import { env } from "@/env";
 import { useToast } from "@/app/_components/ui/use-toast";
 import { ToastAction } from "@/app/_components/ui/toast";
 import { redirect } from "next/navigation";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/app/_components/ui/select";
 
 export default function CartPage() {
   const { cart } = useCartStore();
@@ -21,6 +29,9 @@ export default function CartPage() {
   const { isSignedIn } = useUser();
   const { toast } = useToast();
   const order = api.order.create.useMutation();
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
+    "cod" | "online"
+  >("online");
 
   const processPayment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,7 +50,12 @@ export default function CartPage() {
     }
 
     const amount =
-      cart.reduce((acc, item) => acc + item.price * item.quantity, 0) * 100;
+      cart.reduce(
+        (acc, item) => acc + (item.price - item.discount) * item.quantity,
+        0,
+      ) *
+        100 +
+      (selectedPaymentMethod === "cod" ? 70 * 100 : 0);
     const currency = "INR";
     try {
       const orderId = await createOrder.mutateAsync({
@@ -159,23 +175,53 @@ export default function CartPage() {
                       </span>
                     </p>
                     <p className={`text-muted-foreground`}>
-                      &#8377;{cartItem.price * cartItem.quantity}
+                      &#8377;
+                      {(cartItem.price - cartItem.discount) * cartItem.quantity}
                     </p>
                   </div>
                 ))}
               </div>
-              <p
-                className={`mb-1 mt-4 w-full pr-4 text-right text-lg text-muted-foreground`}
-              >
-                Total:{" "}
-                <span className={`text-foreground`}>
-                  &#8377;
-                  {cart.reduce(
-                    (acc, item) => acc + item.price * item.quantity,
-                    0,
+              <div className={`flex w-full items-center justify-between`}>
+                <Select
+                  onValueChange={(value) => {
+                    setSelectedPaymentMethod(value as "cod" | "online");
+                    if (value === "cod") {
+                      toast({
+                        title: "Cash on Delivery",
+                        description: "A convenience fee of ₹70 is applicable",
+                      });
+                    }
+                  }}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Payment Method" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="online">Online</SelectItem>
+                      <SelectItem value="cod">Cash On Delivery</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <p
+                  className={`mb-1 mt-4 w-full pr-4 text-right text-lg text-muted-foreground`}
+                >
+                  {selectedPaymentMethod === "cod" ? (
+                    <p className={`text-sm`}>+ &#8377;70</p>
+                  ) : (
+                    ""
                   )}
-                </span>
-              </p>
+                  Total:{" "}
+                  <span className={`text-foreground`}>
+                    &#8377;
+                    {cart.reduce(
+                      (acc, item) =>
+                        acc + (item.price - item.discount) * item.quantity,
+                      0,
+                    ) + (selectedPaymentMethod === "cod" ? 70 : 0)}
+                  </span>
+                </p>
+              </div>
               <div className={`mb-4 h-1 w-full bg-border`} />
               <Button
                 type="submit"

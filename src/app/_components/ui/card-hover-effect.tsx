@@ -73,7 +73,7 @@ export const HoverEffect = ({
               <span className={`line-through`}>&#8377;{item.price}</span>{" "}
               <span className={`text-lime-500`}>
                 &#8377;
-                {item.price - (item.price * item.discount) / 100}
+                {item.price - item.discount}
               </span>
             </p>
           </Card>

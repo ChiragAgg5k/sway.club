@@ -79,7 +79,7 @@ export default async function ProductPage({
             <span className={`line-through`}>&#8377;{product.price}</span>{" "}
             <span className={`text-lime-500`}>
               &#8377;
-              {product.price - (product.price * product.discount) / 100}
+              {product.price - product.discount}
             </span>
           </p>
           <p className={`mt-4 text-sm leading-7 text-muted-foreground`}>

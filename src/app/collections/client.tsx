@@ -29,8 +29,7 @@ export default function CollectionsClient({
 
   const filterProducts = (products: Product[]) => {
     return products.filter((product) => {
-      const discountedPrice =
-        product.price - (product.price * product.discount) / 100;
+      const discountedPrice = product.price - product.discount;
       return (
         discountedPrice >= selectedPriceRange[0] &&
         discountedPrice <= selectedPriceRange[1] &&

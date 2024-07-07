@@ -65,7 +65,7 @@ export default function CartCard({ cartItem }: { cartItem: CartItem }) {
         <div className={`relative flex h-20 items-center justify-center`}>
           <p className={`mt-2 text-center text-xl text-lime-500`}>
             {cartItem.quantity} x &#8377;
-            {cartItem.price - (cartItem.price * cartItem.discount) / 100}
+            {cartItem.price - cartItem.discount}
           </p>
           <span
             className={`absolute bottom-0 text-sm text-muted-foreground line-through`}
