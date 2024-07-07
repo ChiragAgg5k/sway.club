@@ -7,7 +7,7 @@ import { Button } from "../_components/ui/button";
 import Link from "next/link";
 import Script from "next/script";
 import { api } from "@/trpc/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import { env } from "@/env";
 import { useToast } from "@/app/_components/ui/use-toast";
@@ -21,9 +21,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/_components/ui/select";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/app/_components/ui/alert-dialog";
+import { v4 as uuidv4 } from "uuid";
 
 export default function CartPage() {
-  const { cart } = useCartStore();
+  const { cart, remove } = useCartStore();
   const createOrder = api.razorPay.createOrder.useMutation();
   const { user } = useUser();
   const { isSignedIn } = useUser();
@@ -33,8 +45,40 @@ export default function CartPage() {
     "cod" | "online"
   >("online");
 
+  const placeOrder = async () => {
+    order.mutate({
+      status: "cod",
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      id: uuidv4(),
+      order_items: cart.map((item) => ({
+        sku_code: item.sku_code,
+        quantity: item.quantity,
+      })),
+      order_date: new Date().toISOString(),
+      total_price: cart.reduce(
+        (acc, item) =>
+          acc +
+          (item.price - item.discount) * item.quantity +
+          (selectedPaymentMethod === "cod" ? 70 : 0),
+        0,
+      ),
+      user_id: user!.id,
+    });
+
+    toast({
+      title: "Order Placed",
+      description: "Your order has been placed successfully",
+    });
+
+    cart.forEach((item) => remove(item));
+  };
+
   const processPayment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (selectedPaymentMethod === "cod") {
+      return;
+    }
 
     if (!isSignedIn) {
       toast({
@@ -53,9 +97,7 @@ export default function CartPage() {
       cart.reduce(
         (acc, item) => acc + (item.price - item.discount) * item.quantity,
         0,
-      ) *
-        100 +
-      (selectedPaymentMethod === "cod" ? 70 * 100 : 0);
+      ) * 100;
     const currency = "INR";
     try {
       const orderId = await createOrder.mutateAsync({
@@ -120,7 +162,6 @@ export default function CartPage() {
           color: "#98d93a",
         },
       };
-
       // @ts-ignore
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       const paymentObject = new window.Razorpay(options);
@@ -223,12 +264,39 @@ export default function CartPage() {
                 </p>
               </div>
               <div className={`mb-4 h-1 w-full bg-border`} />
-              <Button
-                type="submit"
-                className={` w-full bg-lime-500 hover:bg-lime-600`}
-              >
-                Proceed to Payment
-              </Button>
+              {selectedPaymentMethod === "online" ? (
+                <Button
+                  type="submit"
+                  className={` w-full bg-lime-500 hover:bg-lime-600`}
+                >
+                  Proceed to Payment
+                </Button>
+              ) : (
+                <AlertDialog>
+                  <AlertDialogTrigger className={`w-full`}>
+                    <Button className={` w-full bg-lime-500 hover:bg-lime-600`}>
+                      Place Order
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you sure you want to place the order?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        A convenience fee of ₹70 is applicable on Cash on
+                        Delivery.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={placeOrder}>
+                        Continue
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              )}
             </form>
           </div>
         </div>
