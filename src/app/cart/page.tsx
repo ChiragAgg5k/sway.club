@@ -7,7 +7,7 @@ import { Button } from "../_components/ui/button";
 import Link from "next/link";
 import Script from "next/script";
 import { api } from "@/trpc/react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import { env } from "@/env";
 import { useToast } from "@/app/_components/ui/use-toast";
@@ -42,8 +42,8 @@ export default function CartPage() {
   const { toast } = useToast();
   const order = api.order.create.useMutation();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
-    "cod" | "online"
-  >("online");
+    null | "cod" | "online"
+  >(null);
 
   const placeOrder = async () => {
     order.mutate({
@@ -264,7 +264,21 @@ export default function CartPage() {
                 </p>
               </div>
               <div className={`mb-4 h-1 w-full bg-border`} />
-              {selectedPaymentMethod === "online" ? (
+              {selectedPaymentMethod === null ? (
+                <Button
+                  type={`button`}
+                  className={`w-full bg-lime-500 hover:bg-lime-600`}
+                  onClick={() => {
+                    toast({
+                      title: "Select Payment Method",
+                      description:
+                        "Please select payment method to either be Cash on Delivery or Online.",
+                    });
+                  }}
+                >
+                  Place Order
+                </Button>
+              ) : selectedPaymentMethod === "online" ? (
                 <Button
                   type="submit"
                   className={` w-full bg-lime-500 hover:bg-lime-600`}
